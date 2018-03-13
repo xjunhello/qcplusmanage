@@ -1,0 +1,7 @@
+qcsystem.zip 是配置好的tomcat，http端口是8888
+1：解压
+2：修改qcsystem\conf\Catalina\localhost\qcsystem.xml,
+	设置docBase="D://upload"为文件服务器的某一本地路径，path="/qcsystem"为自定义访问路径，此值要与文件名一致。
+3：修改qcplusmanage的WEB-INF/ckfinder.xml的<baseDir>d:\\upload\\</baseDir>
+	与步骤2的docBase一致。
+4：修改<baseURL>http://127.0.0.1:8888/qcsystem/</baseURL>的值为文件服务器访问路径。

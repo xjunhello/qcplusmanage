@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <!-- common start -->
+  <display-name>qcplusmanage</display-name>
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+  <!-- common end -->
+
+  
+ <!-- filter start -->
+  <filter>
+    <filter-name>characterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+    <filter-mapping>
+    <filter-name>characterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>loginFilter</filter-name>
+    <filter-class>com.framework.filter.LoginFilter</filter-class>
+  </filter>
+   <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <!-- views  -->
+    <url-pattern>/view/*</url-pattern>
+    <!-- controllers -->
+    <url-pattern>/user/*</url-pattern>
+    <url-pattern>/role/*</url-pattern>
+    <url-pattern>/order/*</url-pattern>
+    <url-pattern>/hot/*</url-pattern>
+  </filter-mapping>
+  <!-- 配置Session -->
+  <filter>
+    <filter-name>openSession</filter-name>
+    <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>openSession</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!-- filter end -->
+
+  <!-- log4j start -->
+   <listener>
+    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>classpath:/log4j.properties</param-value>
+  </context-param>
+  <!-- log4j end -->
+  
+  <!-- spring ioc start -->
+   <listener>  
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
+    </listener> 
+   <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath*:/spring/*.xml</param-value>
+  </context-param>
+  
+  <!-- spring ioc end -->
+  
+  <!-- spring mvc start -->
+  <servlet>
+    <servlet-name>springmvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath*:/spring/springmvc-servlet.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>springmvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <!-- spring mvc end -->
+  
+  <!-- 自定义属性加载 start -->
+  <listener>
+    <listener-class>com.framework.listener.ContextInitListener</listener-class>
+  </listener>
+  <!-- 自定义属性加载 end -->
+  <welcome-file-list>
+    <welcome-file>/view/index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <mime-mapping>
+    <extension>ico</extension>
+    <mime-type>image/x-icon</mime-type>
+  </mime-mapping>
+
+  <!-- CKFinder start -->
+  <servlet>
+    <servlet-name>ConnectorServlet</servlet-name>
+    <servlet-class>com.ckfinder.connector.ConnectorServlet</servlet-class>
+    <init-param>
+      <description>
+        Path to configuration file can be relative path inside application,
+        absolute path on local file system or UNC path.
+      </description>
+      <param-name>XMLConfig</param-name>
+      <param-value>/WEB-INF/ckfinder.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConnectorServlet</servlet-name>
+    <url-pattern>
+      /ckfinder/core/connector/java/connector.java
+    </url-pattern>
+  </servlet-mapping>
+  
+  <jsp-config>
+    <taglib>
+        <taglib-uri>/qcplustaglib</taglib-uri>
+        <taglib-location>/WEB-INF/tag/qc.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+  <!-- CKFinder end -->
+  
+    <!-- exception skip to page 
+  <error-page>
+    <exception-type>InvalidSessionException</exception-type>
+    <location>/view/error.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/view/404.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>503</error-code>
+    <location>/view/503.jsp</location>
+  </error-page>-->
+</web-app>
